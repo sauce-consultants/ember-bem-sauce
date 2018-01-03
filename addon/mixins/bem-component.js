@@ -58,7 +58,12 @@ export default Mixin.create({
    */
   _defineModifierComputedProperty() {
     // get all modifier property strings
-    let args = copy(this.get('modifiers'));
+    let args = copy(this.get('modifiers'))
+      .map((mod) => {
+        // remove any custom modifiers so we
+        // observe the correct property
+        return mod.split(':')[0];
+      });
     // add the computed function
     args.push(
       function() {
