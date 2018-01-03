@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import getBemClasses from 'ember-bem-sauce/utils/get-bem-classes';
 import getBemModifiers from 'ember-bem-sauce/utils/get-bem-modifiers';
 
 const {
@@ -19,14 +18,18 @@ export default Mixin.create({
   classNameBindings: [],
   // Computed
   b: alias('base'),
-  componentBaseClasses: computed('m', function() {
+  componentBaseClasses: computed('base', 'm', 'tagName', function() {
     // do not add class bindings for naked components
     if (this.get('tagName') === '') {
       return;
     }
     let base = this.get('base'),
-      modifiers = this.get('modifiers');
-    return getBemClasses(base, modifiers, this);
+      classNames = Ember.A([base]);
+
+    this.get('m').forEach(function(modifier) {
+      classNames.pushObject(`${base}--${modifier}`);
+    });
+    return classNames.join(' ');
   }),
   init() {
     this._super(...arguments);
