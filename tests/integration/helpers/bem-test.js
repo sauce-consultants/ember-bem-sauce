@@ -51,3 +51,19 @@ test('test helper returns correct modifier classes with additional custom modifi
 
   assert.equal(this.$().text().trim(), 'component__element component__element--active component__element--primary component__element--foo');
 });
+
+test('test dummy component', function(assert) {
+  this.set('disabled', false);
+
+  this.render(hbs `{{test-component disabled=disabled}}`);
+
+  let $component = this.$('.test');
+
+  assert.equal($component.attr("class"), 'test ember-view', 'Has correct classes');
+
+  // change disabled
+
+  this.set('disabled', true);
+
+  assert.equal($component.attr("class"), 'test test--disabled ember-view', 'Has correct classes');
+})
