@@ -26,5 +26,5 @@ export default function getBemClasses(baseClass, modifiers, context) {
       classNames.push(`${baseClass}--${modifier}`);
     }
   });
-  return classNames.join(' ');
+  return classNames.sort().join(' ');
 }

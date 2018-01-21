@@ -24,5 +24,5 @@ export default function getBemModifiers(modifiers, context) {
       classNames.push(modifier);
     }
   });
-  return classNames;
+  return classNames.sort();
 }
