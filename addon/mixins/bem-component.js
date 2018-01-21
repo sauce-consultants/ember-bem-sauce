@@ -7,6 +7,7 @@ import {
   get,
   set
 } from '@ember/object';
+
 const {
   isEmpty,
   copy,
@@ -22,6 +23,7 @@ export default Mixin.create({
   base: null,
   modifiers: [],
   classNameBindings: [],
+  debugBem: false,
   // Computed
   b: alias('base'),
   componentBaseClasses: computed('base', 'm', 'tagName', function() {
@@ -37,17 +39,40 @@ export default Mixin.create({
     });
     return classNames.join(' ');
   }),
+  // Methods
   init() {
-    set(this, 'modifiers', A([]));
     this._super(...arguments);
     this._defineModifierComputedProperty();
     this._addCompomentClassBindings();
+  },
+  registerModifier(modifier) {
+    let m = get(this, 'modifiers');
+    if (isEmpty(m)) {
+      m = A([]);
+      set(this, 'modifiers', m);
+    }
+    m.pushObject(modifier);
+
+    this._defineModifierComputedProperty();
+  },
+  registerModifiers(modifiers) {
+    let m = get(this, 'modifiers');
+    if (isEmpty(m)) {
+      m = A([]);
+      set(this, 'modifiers', m);
+    }
+    m.pushObjects(modifiers);
+
+    this._defineModifierComputedProperty();
   },
   /**
    * Add a classNameBinding computed property
    * that will add base classes
    */
   _addCompomentClassBindings() {
+    if (get(this, 'debugBem')) {
+      Ember.Logger.log('_addCompomentClassBindings');
+    }
     // Get existing bindings
     let classNameBindings = get(this, 'classNameBindings');
     // Create of modify classNameBindings
@@ -67,6 +92,9 @@ export default Mixin.create({
    * you only need pass one modifier argument.
    */
   _defineModifierComputedProperty() {
+    if (get(this, 'debugBem')) {
+      Ember.Logger.log('_defineModifierComputedProperty');
+    }
     // get all modifier property strings
     let args = copy(get(this, 'modifiers'))
       .map((mod) => {
@@ -74,10 +102,17 @@ export default Mixin.create({
         // observe the correct property
         return mod.split(':')[0];
       });
+    if (get(this, 'debugBem')) {
+      Ember.Logger.log(args);
+    }
     // add the computed function
     args.push(
       function() {
-        return getBemModifiers(get(this, 'modifiers'), this);
+        let modifiers = getBemModifiers(get(this, 'modifiers'), this);
+        if (get(this, 'debugBem')) {
+          Ember.Logger.log(modifiers);
+        }
+        return modifiers;
       }
     );
     // define computed using spread operator
