@@ -1,6 +1,12 @@
 import Ember from 'ember';
 import getBemModifiers from 'ember-bem-sauce/utils/get-bem-modifiers';
-
+import {
+  A
+} from '@ember/array';
+import {
+  get,
+  set
+} from '@ember/object';
 const {
   isEmpty,
   copy,
@@ -20,18 +26,19 @@ export default Mixin.create({
   b: alias('base'),
   componentBaseClasses: computed('base', 'm', 'tagName', function() {
     // do not add class bindings for naked components
-    if (this.get('tagName') === '') {
+    if (get(this, 'tagName') === '') {
       return;
     }
-    let base = this.get('base'),
+    let base = get(this, 'base'),
       classNames = Ember.A([base]);
 
-    this.get('m').forEach(function(modifier) {
+    get(this, 'm').forEach(function(modifier) {
       classNames.pushObject(`${base}--${modifier}`);
     });
     return classNames.join(' ');
   }),
   init() {
+    set(this, 'modifiers', A([]));
     this._super(...arguments);
     this._defineModifierComputedProperty();
     this._addCompomentClassBindings();
@@ -42,7 +49,7 @@ export default Mixin.create({
    */
   _addCompomentClassBindings() {
     // Get existing bindings
-    let classNameBindings = this.get('classNameBindings');
+    let classNameBindings = get(this, 'classNameBindings');
     // Create of modify classNameBindings
     if (isEmpty(classNameBindings)) {
       classNameBindings = [];
@@ -51,7 +58,7 @@ export default Mixin.create({
     }
     // Add class computed property
     classNameBindings.push('componentBaseClasses');
-    this.set('classNameBindings', classNameBindings);
+    set(this, 'classNameBindings', classNameBindings);
   },
   /**
    * Create a computed property that will observe all properties
@@ -61,7 +68,7 @@ export default Mixin.create({
    */
   _defineModifierComputedProperty() {
     // get all modifier property strings
-    let args = copy(this.get('modifiers'))
+    let args = copy(get(this, 'modifiers'))
       .map((mod) => {
         // remove any custom modifiers so we
         // observe the correct property
@@ -70,7 +77,7 @@ export default Mixin.create({
     // add the computed function
     args.push(
       function() {
-        return getBemModifiers(this.get('modifiers'), this);
+        return getBemModifiers(get(this, 'modifiers'), this);
       }
     );
     // define computed using spread operator
