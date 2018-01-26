@@ -27,6 +27,20 @@ test('test class modifier bindings', function(assert) {
   assert.equal(subject.get('componentBaseClasses'), 'component component--active component--primary', 'Check correct base classess bound');
 });
 
+test('test class modifier bindings with tagless component', function(assert) {
+  let BemComponentObject = Ember.Object.extend(BemComponentMixin, {
+      base: 'component',
+      tagName: '',
+      modifiers: ['active', 'disabled', 'primary'],
+    }),
+    subject = BemComponentObject.create();
+
+  subject.set('active', true);
+  subject.set('primary', true);
+
+  assert.equal(subject.get('componentBaseClasses'), undefined, 'Check correct base classess bound');
+});
+
 test('test class modifier bindings with global base class', function(assert) {
 
   config['bem-sauce'].globalBaseClass = "global-base-class";

@@ -77,6 +77,9 @@ export default Mixin.create({
    * that will add base classes
    */
   _addCompomentClassBindings() {
+    if (get(this, 'tagName') === '') {
+      return;
+    }
     if (get(this, 'debugBem')) {
       Ember.Logger.log('_addCompomentClassBindings');
     }
