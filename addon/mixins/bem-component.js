@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import getBemModifiers from 'ember-bem-sauce/utils/get-bem-modifiers';
+import config from 'ember-get-config';
 import {
   A
 } from '@ember/array';
@@ -31,8 +32,14 @@ export default Mixin.create({
     if (get(this, 'tagName') === '') {
       return;
     }
-    let base = get(this, 'base'),
-      classNames = Ember.A([base]);
+    let globalBase = get(config, 'bem-sauce.globalBaseClass'),
+      base = get(this, 'base'),
+      classNames = Ember.A();
+
+    if (globalBase) {
+      classNames.pushObject(globalBase);
+    }
+    classNames.pushObject(base);
 
     get(this, 'm').forEach(function(modifier) {
       classNames.pushObject(`${base}--${modifier}`);

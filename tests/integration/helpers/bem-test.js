@@ -3,6 +3,7 @@ import {
   test
 } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import config from 'ember-get-config';
 
 moduleForComponent('bem', 'helper:bem', {
   integration: true
@@ -16,6 +17,21 @@ test('test helper returns correct modifier classes', function(assert) {
   this.render(hbs `{{bem b 'element' m}}`);
 
   assert.equal(this.$().text().trim(), 'component__element component__element--active component__element--primary');
+});
+
+test('test helper returns correct modifier classes with a global base class', function(assert) {
+
+  config['bem-sauce'].globalBaseClass = "global-base-class";
+
+  this.set('b', 'component');
+  this.set('m', ['active', 'primary']);
+
+  this.render(hbs `{{bem b 'element' m}}`);
+
+  assert.equal(this.$().text().trim(), 'global-base-class component__element component__element--active component__element--primary');
+
+  // turn base class off
+  config['bem-sauce'].globalBaseClass = false;
 });
 
 test('test helper returns correct no modifier classes', function(assert) {

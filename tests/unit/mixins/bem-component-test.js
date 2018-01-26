@@ -4,6 +4,7 @@ import {
   module,
   test
 } from 'qunit';
+import config from 'ember-get-config';
 
 module('Unit | Mixin | bem component');
 
@@ -24,6 +25,25 @@ test('test class modifier bindings', function(assert) {
   subject.set('primary', true);
 
   assert.equal(subject.get('componentBaseClasses'), 'component component--active component--primary', 'Check correct base classess bound');
+});
+
+test('test class modifier bindings with global base class', function(assert) {
+
+  config['bem-sauce'].globalBaseClass = "global-base-class";
+
+  let BemComponentObject = Ember.Object.extend(BemComponentMixin, {
+      base: 'component',
+      modifiers: ['active', 'disabled', 'primary'],
+    }),
+    subject = BemComponentObject.create();
+
+  subject.set('active', true);
+  subject.set('primary', true);
+
+  assert.equal(subject.get('componentBaseClasses'), 'global-base-class component component--active component--primary', 'Check correct base classess bound');
+
+  // turn base class off
+  config['bem-sauce'].globalBaseClass = false;
 });
 
 test('test class modifiers ignored on tagless component', function(assert) {
