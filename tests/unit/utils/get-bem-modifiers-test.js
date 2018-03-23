@@ -44,8 +44,9 @@ test('test returns no modifiers', function(assert) {
       active: false,
       disabled: false,
       primary: false,
+      style: null,
     }),
-    modifiers = ['active', 'disabled', 'primary:my-custom-mod'];
+    modifiers = ['active', 'disabled', 'primary:my-custom-mod', '*style'];
 
   let result = getBemModifiers(modifiers, context);
 
