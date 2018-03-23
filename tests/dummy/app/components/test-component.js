@@ -11,6 +11,7 @@ export default Ember.Component.extend(BemComponent, {
       'disabled',
       'primary',
       'secondary',
+      '*style',
     ]);
     this._super(...arguments);
   },

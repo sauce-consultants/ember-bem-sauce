@@ -3,6 +3,11 @@
 <button type="button" name="button" {{action 'toggleDisabled'}}>Toggle Disabled {{disabled}}</button>
 <button type="button" name="button" {{action 'toggleActive'}}>Toggle Active {{active}}</button>
 
-{{test-component title="Demo Component" button="Go!" disabled=disabled active=active}}
+{{test-component
+  title="Demo Component"
+  button="Go!" disabled=disabled
+  active=active
+  style="primary tree"
+}}
 
 {{outlet}}

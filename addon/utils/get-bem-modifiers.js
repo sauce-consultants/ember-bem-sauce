@@ -23,6 +23,19 @@ export default function getBemModifiers(modifiers, context) {
     if (context.get(property)) {
       classNames.push(modifier);
     }
+
+    if (modifier.indexOf('*') === 0) {
+      let property = modifier.substr(1),
+        value = context.get(property);
+
+      if (value) {
+        value
+          .split(' ')
+          .forEach(modifier => {
+            classNames.push(modifier);
+          });
+      }
+    }
   });
   return classNames.sort();
 }

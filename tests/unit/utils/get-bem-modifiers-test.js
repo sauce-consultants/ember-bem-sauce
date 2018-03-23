@@ -51,3 +51,38 @@ test('test returns no modifiers', function(assert) {
 
   assert.equal(result.length, 0);
 });
+
+test('test returns correct wildcard modifiers', function(assert) {
+  let context = Ember.Object.create({
+      active: true,
+      disabled: false,
+      primary: true,
+      style: 'foo'
+    }),
+    modifiers = ['active', 'disabled', 'primary:my-custom-mod', '*style'];
+
+  let result = getBemModifiers(modifiers, context);
+
+  assert.equal(result.length, 3);
+  assert.equal(result[0], 'active');
+  assert.equal(result[1], 'foo');
+  assert.equal(result[2], 'my-custom-mod');
+});
+
+test('test returns correct multi wildcard modifiers', function(assert) {
+  let context = Ember.Object.create({
+      active: true,
+      disabled: false,
+      primary: true,
+      style: 'foo bar',
+    }),
+    modifiers = ['active', 'disabled', 'primary:my-custom-mod', '*style'];
+
+  let result = getBemModifiers(modifiers, context);
+
+  assert.equal(result.length, 4);
+  assert.equal(result[0], 'active');
+  assert.equal(result[1], 'bar');
+  assert.equal(result[2], 'foo');
+  assert.equal(result[3], 'my-custom-mod');
+});
