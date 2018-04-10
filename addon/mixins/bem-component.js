@@ -110,7 +110,15 @@ export default Mixin.create({
       .map((mod) => {
         // remove any custom modifiers so we
         // observe the correct property
-        return mod.split(':')[0];
+        if (mod.indexOf(':') !== -1) {
+          return mod.split(':')[0];
+        }
+        // look out for wildcards
+        if (mod.indexOf('*') === 0) {
+          return mod.substr(1);
+        }
+
+        return mod;
       });
     if (get(this, 'debugBem')) {
       Ember.Logger.log(args);

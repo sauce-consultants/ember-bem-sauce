@@ -4,14 +4,14 @@ const {
 } = Ember;
 
 export default Controller.extend({
-  active: true,
-  disabled: true,
+  // Attributes
+  style: '',
+  title: '',
+  disabled: false,
+  // Actions
   actions: {
     toggleDisabled() {
       this.toggleProperty('disabled');
-    },
-    toggleActive() {
-      this.toggleProperty('active');
     },
   },
 });

@@ -1,13 +1,41 @@
 <h2 id="title">BEM Sauce</h2>
 
-<button type="button" name="button" {{action 'toggleDisabled'}}>Toggle Disabled {{disabled}}</button>
-<button type="button" name="button" {{action 'toggleActive'}}>Toggle Active {{active}}</button>
+<p>This is a test component with three modifiers</p>
 
-{{test-component
-  title="Demo Component"
-  button="Go!" disabled=disabled
-  active=active
-  style="primary tree"
+<ul>
+  <li><b>disabled</b>: standard boolean modifier</li>
+  <li><b>hasTitle:has-title</b>: a modifier with a custom modifier string</li>
+  <li><b>*style</b>: a wildcard modifier</li>
+</ul>
+
+<button
+  type="button"
+  name="button"
+  class="disabled-button"
+  {{action 'toggleDisabled'}}
+>Toggle Disabled {{disabled}}</button>
+
+{{input
+  placeholder="Title Value"
+  value=title
+  class="title-input"
 }}
+
+{{input
+  placeholder="Style Value"
+  value=style
+  class="style-input"
+}}
+
+<br>
+<br>
+<br>
+
+{{#test-component
+  title=title
+  button="Go!"
+  disabled=disabled
+  style=style
+}}This is the component content{{/test-component}}
 
 {{outlet}}
