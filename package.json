@@ -1,6 +1,6 @@
 {
   "name": "ember-bem-sauce",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -33,6 +33,7 @@
     "ember-cli-shims": "^1.1.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-uglify": "^1.2.0",
+    "ember-copy": "^1.0.0",
     "ember-disable-prototype-extensions": "^1.1.2",
     "ember-export-application-global": "^2.0.0",
     "ember-get-config": "^0.2.4",

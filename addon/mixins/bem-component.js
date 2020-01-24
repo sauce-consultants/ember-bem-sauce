@@ -8,10 +8,12 @@ import {
   get,
   set
 } from '@ember/object';
+import {
+  copy
+} from 'ember-copy';
 
 const {
   isEmpty,
-  copy,
   computed,
   computed: {
     alias,
