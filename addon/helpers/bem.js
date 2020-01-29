@@ -1,17 +1,24 @@
 import Ember from 'ember';
 import config from 'ember-get-config';
-import {
-  get
-} from '@ember/object';
+import { get } from '@ember/object';
+import { isArray, A } from '@ember/array';
+
 export function bem(params, additionalModifiers) {
 
   // return params;
-  let globalBase = get(config, 'bem-sauce.globalBaseClass'),
-    base = params[0],
-    element = params[1],
-    modifiers = params[2],
-    baseClass = `${base}__${element}`,
-    classNames = Ember.A();
+  let globalBase = get(config, 'bem-sauce.globalBaseClass');
+  let base, element, modifiers;
+
+  base = params[0];
+  if (isArray(params[1])) {
+    modifiers = params[1] || A();
+  } else {
+    element = params[1];
+    modifiers = params[2] || A();
+  }
+
+  let baseClass = A([base, element]).compact().join('__');
+  let classNames = A();
 
   if (globalBase) {
     classNames.pushObject(globalBase);
