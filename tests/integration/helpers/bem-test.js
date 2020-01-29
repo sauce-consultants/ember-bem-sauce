@@ -68,6 +68,18 @@ test('test helper returns correct modifier classes with additional custom modifi
   assert.equal(this.$().text().trim(), 'component__element component__element--active component__element--primary component__element--foo');
 });
 
+test('test helper returns correct modifier classes without even if no element is provided', function(assert) {
+
+  this.set('b', 'component');
+  this.set('m', ['active', 'primary']);
+  this.set('boop', false);
+  this.set('bar', true);
+
+  this.render(hbs `{{bem b m boop=boop foo=bar}}`);
+
+  assert.equal(this.$().text().trim(), 'component component--active component--primary component--foo');
+});
+
 test('test dummy component', function(assert) {
   this.set('disabled', false);
 
