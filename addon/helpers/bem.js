@@ -11,10 +11,10 @@ export function bem(params, additionalModifiers) {
 
   base = params[0];
   if (isArray(params[1])) {
-    modifiers = params[1];
+    modifiers = params[1] || A();
   } else {
     element = params[1];
-    modifiers = params[2];
+    modifiers = params[2] || A();
   }
 
   let baseClass = A([base, element]).compact().join('__');
